@@ -1,6 +1,6 @@
 ﻿namespace Hotelaria
 {
-    class Cliente : Pessoa
+    public class Cliente : Pessoa
     {
         public Reserva Reserva { get; set; }
 

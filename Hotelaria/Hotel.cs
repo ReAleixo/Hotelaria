@@ -1,9 +1,10 @@
 ﻿namespace Hotelaria
 {
-    class Hotel
+    public class Hotel
     {
         public string Nome { get; set; }
-        public int NumeroQuartos { get; set; }
+        public List<Quarto> Quartos { get; set; }
+        public List<Quarto> QuartosDisponiveis { get; set; }
         public int NumeroAndares { get; set; }
         public Endereco Endereco { get; set; }
 

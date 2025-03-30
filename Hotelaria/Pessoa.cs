@@ -1,6 +1,6 @@
 ﻿namespace Hotelaria
 {
-    class Pessoa
+    public class Pessoa
     {
         public string Nome { get; set; }
         public string Documento { get; set; }
