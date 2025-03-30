@@ -1,0 +1,6 @@
+﻿namespace Hotelaria
+{
+    class Reserva
+    {
+    }
+}
