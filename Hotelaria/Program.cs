@@ -39,3 +39,9 @@ List<Quarto> quartos = new List<Quarto>
 
 hotel.Quartos = quartos;
 
+hotel.QuartosDisponiveis = hotel.Quartos.Where(x => x.QuartoDisponivel).ToList();
+
+
+Reserva reserva = new Reserva(hotel, hotel.QuartosDisponiveis.First(), DateTime.Now, DateTime.Now.AddDays(3), 2);
+reserva.ConferirQuartosDisponiveis(hotel);
+

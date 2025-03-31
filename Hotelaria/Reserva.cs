@@ -22,23 +22,25 @@
                 Id = new Random().Next(20000, 100000);
                 return;
             }
-            throw new Exception("Quarto não disponível. Por favor confira a lista de quartos disponíveis");
+            Console.WriteLine("Quarto não disponível. Por favor confira a lista de quartos disponíveis");
         }
 
-        public string ConferirQuartosDisponiveis(Hotel hotel)
+        public void ConferirQuartosDisponiveis(Hotel hotel)
         {
 
             if (hotel.QuartosDisponiveis == null || hotel.QuartosDisponiveis.Count.Equals(default))
             {
-                return "O hotel escolhido não possui quartos disponíveis no momento.";
+                Console.WriteLine("O hotel escolhido não possui quartos disponíveis no momento.");
+                return;
             }
 
             if (hotel.QuartosDisponiveis.Count.Equals(1))
             {
-                return $"O hotel {hotel.Nome} possui disponível apenas o quarto {hotel.QuartosDisponiveis}.";
+                Console.WriteLine($"O hotel {hotel.Nome} possui disponível apenas o quarto {hotel.QuartosDisponiveis}.");
+                return;
             }
 
-            return $"O hotel {hotel.Nome} possui os seguintes quartos dísponíveis: {hotel.QuartosDisponiveis}";
+            Console.WriteLine($"O hotel {hotel.Nome} possui os seguintes quartos dísponíveis: {hotel.QuartosDisponiveis}");
         }
     }
 }
