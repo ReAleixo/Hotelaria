@@ -9,5 +9,10 @@
         {
 
         }
+
+        public void LimparQuarto(Quarto quarto)
+        {
+            quarto.Limpo = true;
+        }
     }
 }

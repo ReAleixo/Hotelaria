@@ -1,4 +1,6 @@
-﻿namespace Hotelaria
+﻿using Hotelaria.ValueObject;
+
+namespace Hotelaria
 {
     public class Cliente : Pessoa
     {

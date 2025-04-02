@@ -1,4 +1,4 @@
-﻿namespace Hotelaria
+﻿namespace Hotelaria.ValueObject
 {
     public class Endereco
     {
@@ -9,10 +9,5 @@
         public string Cidade { get; set; }
         public string Estado { get; set; }
         public string CEP { get; set; }
-        
-        public Endereco()
-        {
-
-        }
     }
 }
