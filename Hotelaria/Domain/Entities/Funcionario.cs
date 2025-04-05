@@ -1,4 +1,4 @@
-﻿namespace Hotelaria
+﻿namespace Hotelaria.Domain.Entities
 {
     public class Funcionario : Pessoa
     {
@@ -12,7 +12,7 @@
 
         public void LimparQuarto(Quarto quarto)
         {
-            quarto.Limpo = true;
+            quarto.EstaLimpo = true;
         }
     }
 }

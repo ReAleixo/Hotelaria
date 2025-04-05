@@ -1,4 +1,4 @@
-﻿namespace Hotelaria
+﻿namespace Hotelaria.Domain.ValueObject
 {
     public class Andar
     {

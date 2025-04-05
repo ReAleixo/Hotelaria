@@ -1,12 +1,12 @@
-﻿using Hotelaria.ValueObject;
+﻿using Hotelaria.Domain.ValueObject;
 
-namespace Hotelaria
+namespace Hotelaria.Domain.Entities
 {
     public class Hotel
     {
         public string Nome { get; set; }
         public List<Quarto> Quartos { get; set; }
-        public List<Quarto>? QuartosDisponiveis { get; set; }
+        public List<Quarto> QuartosDisponiveis { get; set; }
         public int NumeroAndares { get; set; }
         public Endereco Endereco { get; set; }
 
@@ -16,12 +16,12 @@ namespace Hotelaria
             Endereco = endereco;
             NumeroAndares = numeroAndares;
             Quartos = quartos;
-            AtualizaQuartosDisponiveis();
+            QuartosDisponiveis = AtualizaQuartosDisponiveis();
         }
 
-        public void AtualizaQuartosDisponiveis()
+        public List<Quarto> AtualizaQuartosDisponiveis()
         {
-            QuartosDisponiveis = Quartos.Where(x => x.Disponivel).ToList();
+             return Quartos.Where(x => x.EstaDisponivel).ToList();
         }
 
         public string ConfereQuartosDisponiveis()
@@ -43,7 +43,7 @@ namespace Hotelaria
         {
             if (Quartos.Contains(quarto))
             {
-                quarto.Disponivel = false;
+                quarto.EstaDisponivel = false;
                 AtualizaQuartosDisponiveis();
                 return;
             }
@@ -54,12 +54,11 @@ namespace Hotelaria
         {
             if (Quartos.Contains(quarto))
             {
-                quarto.Disponivel = true;
+                quarto.EstaDisponivel = true;
                 AtualizaQuartosDisponiveis();
                 return;
             }
             throw new Exception("Quarto não encontrado no hotel.");
         }
-
     }
 }

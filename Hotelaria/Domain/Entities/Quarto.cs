@@ -1,4 +1,6 @@
-﻿namespace Hotelaria
+﻿using Hotelaria.Domain.ValueObject;
+
+namespace Hotelaria.Domain.Entities
 {
     public class Quarto
     {
@@ -7,8 +9,8 @@
         public Andar Andar { get; set; }
         public int NumeroComodos { get; set; }
         public int NumeroCamas { get; set; }
-        public bool Disponivel { get; set; }
-        public bool Limpo { get; set; }
+        public bool EstaDisponivel { get; set; }
+        public bool EstaLimpo { get; set; }
         public decimal Preco { get; set; }
 
         public Quarto()

@@ -1,4 +1,6 @@
-﻿namespace Hotelaria.ValueObject
+﻿using Hotelaria.Domain.Entities;
+
+namespace Hotelaria.Domain.ValueObject
 {
     public class Reserva
     {

@@ -1,4 +1,4 @@
-﻿namespace Hotelaria
+﻿namespace Hotelaria.Domain.Entities
 {
     public class Pessoa
     {

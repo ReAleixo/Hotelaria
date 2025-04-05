@@ -1,6 +1,6 @@
-﻿using Hotelaria.ValueObject;
+﻿using Hotelaria.Domain.ValueObject;
 
-namespace Hotelaria
+namespace Hotelaria.Domain.Entities
 {
     public class Cliente : Pessoa
     {

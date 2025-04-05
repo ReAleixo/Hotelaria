@@ -1,4 +1,4 @@
-﻿namespace Hotelaria.ValueObject
+﻿namespace Hotelaria.Domain.ValueObject
 {
     public class Endereco
     {
