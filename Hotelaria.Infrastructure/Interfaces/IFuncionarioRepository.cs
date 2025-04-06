@@ -1,8 +1,8 @@
 ﻿using Hotelaria.Domain.Entities;
 
-namespace Hotelaria.Infrastructure.Interface
+namespace Hotelaria.Infrastructure.Interfaces
 {
-    interface IFuncionarioRepository
+    public interface IFuncionarioRepository
     {
         Task Add(Funcionario funcionario);
         Task Update(Funcionario funcionario);

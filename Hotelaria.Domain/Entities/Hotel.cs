@@ -1,6 +1,4 @@
-﻿using Hotelaria.Domain.ValueObject;
-
-namespace Hotelaria.Domain.Entities
+﻿namespace Hotelaria.Domain.Entities
 {
     public class Hotel
     {

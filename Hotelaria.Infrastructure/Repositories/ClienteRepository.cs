@@ -1,9 +1,9 @@
 ﻿using Hotelaria.Domain.Entities;
-using Hotelaria.Infrastructure.Interface;
+using Hotelaria.Infrastructure.Interfaces;
 
 namespace Hotelaria.Infrastructure.Repository
 {
-    class ClienteRepository : IClienteRepository
+    public class ClienteRepository : IClienteRepository
     {
         public Task Add(Cliente cliente)
         {

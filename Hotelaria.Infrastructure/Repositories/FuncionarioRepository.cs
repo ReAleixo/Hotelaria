@@ -1,9 +1,9 @@
 ﻿using Hotelaria.Domain.Entities;
-using Hotelaria.Infrastructure.Interface;
+using Hotelaria.Infrastructure.Interfaces;
 
 namespace Hotelaria.Infrastructure.Repository
 {
-    class FuncionarioRepository : IFuncionarioRepository
+    public class FuncionarioRepository : IFuncionarioRepository
     {
         public Task Add(Funcionario funcionario)
         {

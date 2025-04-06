@@ -1,11 +1,11 @@
 ﻿using Dapper;
 using Hotelaria.Domain.Entities;
-using Hotelaria.Infrastructure.Interface;
+using Hotelaria.Infrastructure.Interfaces;
 using System.Data;
 
 namespace Hotelaria.Infrastructure.Repository
 {
-    class QuartoRepository : IQuartoRepository
+    public class QuartoRepository : IQuartoRepository
     {
         private readonly IDbConnection _dbConnection;
 

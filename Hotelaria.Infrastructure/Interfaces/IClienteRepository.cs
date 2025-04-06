@@ -1,8 +1,8 @@
 ﻿using Hotelaria.Domain.Entities;
 
-namespace Hotelaria.Infrastructure.Interface
+namespace Hotelaria.Infrastructure.Interfaces
 {
-    interface IClienteRepository
+    public interface IClienteRepository
     {
         Task Add(Cliente cliente);
         Task Update(Cliente cliente);

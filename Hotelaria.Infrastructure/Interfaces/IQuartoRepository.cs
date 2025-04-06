@@ -1,8 +1,8 @@
 ﻿using Hotelaria.Domain.Entities;
 
-namespace Hotelaria.Infrastructure.Interface
+namespace Hotelaria.Infrastructure.Interfaces
 {
-    interface IQuartoRepository
+    public interface IQuartoRepository
     {
         Task Add(Quarto quarto);
         Task Update(Quarto quarto);
