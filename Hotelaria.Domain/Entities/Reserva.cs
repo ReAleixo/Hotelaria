@@ -2,7 +2,7 @@
 {
     public class Reserva
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public Hotel Hotel { get; set; }
         public Quarto Quarto { get; set; }
         public DateTime DataEntrada { get; set; }
@@ -19,7 +19,7 @@
                 DataEntrada = dataEntrada;
                 DataSaida = dataSaida;
                 QuantidadePessoas = quantidadePessoas;
-                Id = new Random().Next(20000, 100000);
+                Id = Guid.NewGuid();
                 return;
             }
             throw new Exception("Quarto não disponível. Por favor confira a lista de quartos disponíveis");

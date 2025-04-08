@@ -1,29 +1,49 @@
-﻿using Hotelaria.Domain.Entities;
+﻿using Dapper;
+using Hotelaria.Domain.Entities;
 using Hotelaria.Infrastructure.Interfaces;
+using System.Data;
 
 namespace Hotelaria.Infrastructure.Repository
 {
     public class ClienteRepository : IClienteRepository
     {
-        public Task Add(Cliente cliente)
+        private readonly IDbConnection _dbConnection;
+        public async Task Add(Cliente cliente)
         {
-            throw new NotImplementedException();
+            string sql = @"INSERT INTO Cliente (Nome, Documento, DataNascimento, ReservaId) 
+                                        VALUES (@Nome, @Documento, @DataNascimento, @ReservaId)";
+            await _dbConnection.ExecuteAsync(sql, new { cliente.Nome, cliente.Documento, cliente.DataNascimento, ReservaId = cliente.Reserva.Id });
         }
-        public Task Delete(Cliente cliente)
+
+        public async Task Delete(Cliente cliente)
         {
-            throw new NotImplementedException();
+            string sql = "DELETE FROM Cliente WHERE Id = @Id";
+            await _dbConnection.ExecuteAsync(sql, new { cliente.Id });
         }
-        public Task<Cliente> GetById(int id)
+
+        public async Task<Cliente> GetById(int id)
         {
-            throw new NotImplementedException();
+            string sql = "SELECT * FROM Cliente WHERE Id = @Id";
+            Cliente cliente = await _dbConnection.QueryFirstOrDefaultAsync<Cliente>(sql, new { Id = id });
+            return cliente;
         }
-        public Task<IEnumerable<Cliente>> GetAll()
+
+        public async Task<IEnumerable<Cliente>> GetAll()
         {
-            throw new NotImplementedException();
+            string sql = "SELECT * FROM Cliente";
+            IEnumerable<Cliente> clientes = await _dbConnection.QueryAsync<Cliente>(sql);
+            return clientes.ToList();
         }
-        public Task Update(Cliente cliente)
+
+        public async Task Update(Cliente cliente)
         {
-            throw new NotImplementedException();
+            string sql = @"UPDATE Cliente 
+                              SET Nome = @Nome,
+                                  Documento = @Documento,
+                                  DataNascimento = @DataNascimento,
+                                  ReservaId = @ReservaId
+                            WHERE Id = @Id";
+            await _dbConnection.ExecuteAsync(sql, new { cliente.Nome, cliente.Documento, cliente.DataNascimento, ReservaId = cliente.Reserva.Id, cliente.Id });
         }
     }
 }
