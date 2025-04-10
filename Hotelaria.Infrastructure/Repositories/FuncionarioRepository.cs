@@ -1,29 +1,46 @@
-﻿using Hotelaria.Domain.Entities;
+﻿using Dapper;
+using Hotelaria.Domain.Entities;
 using Hotelaria.Infrastructure.Interfaces;
+using System.Data;
 
 namespace Hotelaria.Infrastructure.Repository
 {
     public class FuncionarioRepository : IFuncionarioRepository
     {
-        public Task Add(Funcionario funcionario)
+        private readonly IDbConnection _dbConnection;
+        public async Task Add(Funcionario funcionario)
         {
-            throw new NotImplementedException();
+            string sql = @"INSERT INTO Funcionario (Nome, Documento, DataNascimento, Cargo, Salario) 
+                                            VALUES (@Nome, @Documento, @DataNascimento, @Cargo, @Salario)";
+            await _dbConnection.ExecuteAsync(sql, new { funcionario.Nome, funcionario.Documento, funcionario.DataNascimento, funcionario.Cargo, funcionario.Salario });
         }
-        public Task Delete(Funcionario funcionario)
+        public async Task Delete(Funcionario funcionario)
         {
-            throw new NotImplementedException();
+            string sql = "DELETE FROM Funcionario WHERE Id = @Id";
+            await _dbConnection.ExecuteAsync(sql, new { funcionario.Id });
         }
-        public Task<Funcionario> GetById(int id)
+        public async Task<Funcionario> GetById(int id)
         {
-            throw new NotImplementedException();
+            string sql = "SELECT * FROM Funcionario WHERE Id = @Id";
+            Funcionario funcionario = await _dbConnection.QueryFirstOrDefaultAsync<Funcionario>(sql, new { Id = id });
+            return funcionario;
         }
-        public Task<IEnumerable<Funcionario>> GetAll()
+        public async Task<IEnumerable<Funcionario>> GetAll()
         {
-            throw new NotImplementedException();
+            string sql = "SELECT * FROM Funcionario";
+            IEnumerable<Funcionario> funcionarios = await _dbConnection.QueryAsync<Funcionario>(sql);
+            return funcionarios.ToList();
         }
-        public Task Update(Funcionario funcionario)
+        public async Task Update(Funcionario funcionario)
         {
-            throw new NotImplementedException();
+            string sql = @"UPDATE Funcionario 
+                              SET Nome = @Nome,
+                                  Documento = @Documento,
+                                  DataNascimento = @DataNascimento,
+                                  Cargo = @Cargo,
+                                  Salario = @Salario
+                            WHERE Id = @Id";
+            await _dbConnection.ExecuteAsync(sql, new { funcionario.Nome, funcionario.Documento, funcionario.DataNascimento, funcionario.Cargo, funcionario.Salario, funcionario.Id });
         }
     }
 }

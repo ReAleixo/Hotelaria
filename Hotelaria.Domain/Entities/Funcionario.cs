@@ -2,8 +2,9 @@
 {
     public class Funcionario : Pessoa
     {
+        public Guid Id { get; set; }
         public string Cargo { get; set; }
-        public double Salario { get; set; }
+        public decimal Salario { get; set; }
 
         public Funcionario()
         {
