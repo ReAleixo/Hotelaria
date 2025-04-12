@@ -4,10 +4,10 @@ namespace Hotelaria.Application.Interfaces
 {
     public interface IClienteService
     {
-        Task Add(Cliente cliente);
-        Task Update(Cliente cliente);
-        Task Delete(Cliente cliente);
-        Task<Cliente> GetById(int id);
+        Task AdicionarCliente(Cliente cliente);
+        Task AtualizarCliente(Cliente cliente);
+        Task RemoverCliente(Cliente cliente);
+        Task<Cliente> GetById(Guid id);
         Task<IEnumerable<Cliente>> GetAll();
     }
 }

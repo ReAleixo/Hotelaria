@@ -13,13 +13,25 @@ namespace Hotelaria.Application.Services
             _quartoRepository = quartoRepository;
         }
 
-        public async Task Add(Quarto quarto)
+        public async Task AdicionarQuarto(Quarto quarto)
         {
+            if (quarto == null)
+            {
+                throw new ArgumentNullException("Quarto não pode ser nulo.");
+            }
+
+            if (await _quartoRepository.GetById(quarto.Id) != null)
+            {
+                throw new Exception("Quarto já existe.");
+            }
+
+            quarto.ValidarDadosCadastro();
             await _quartoRepository.Add(quarto);
         }
 
-        public async Task Delete(Quarto quarto)
+        public async Task RemoverQuarto(Quarto quarto)
         {
+            ProcurarQuarto(quarto);
             await _quartoRepository.Delete(quarto);
         }
 
@@ -28,14 +40,33 @@ namespace Hotelaria.Application.Services
             return await _quartoRepository.GetAll();
         }
 
-        public async Task<Quarto> GetById(int id)
+        public async Task<Quarto> GetById(Guid id)
         {
-            return await _quartoRepository.GetById(id);
+            if (id == Guid.Empty)
+            {
+                throw new ArgumentNullException("Id não pode ser vazio.");
+            }
+            return await _quartoRepository.GetById(id) ?? throw new Exception("Quarto não encontrado.");
         }
 
-        public async Task Update(Quarto quarto)
+        public async Task AtualizarQuarto(Quarto quarto)
         {
+            ProcurarQuarto(quarto);
+            quarto.ValidarDadosCadastro();
             await _quartoRepository.Update(quarto);
+        }
+
+        private async void ProcurarQuarto(Quarto quarto)
+        {
+            if (quarto == null)
+            {
+                throw new ArgumentNullException("Quarto não pode ser nulo.");
+            }
+
+            if (await _quartoRepository.GetById(quarto.Id) == null)
+            {
+                throw new Exception("Quarto não encontrado.");
+            }
         }
     }
 }

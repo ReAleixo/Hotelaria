@@ -13,13 +13,25 @@ namespace Hotelaria.Application.Services
             _funcionarioRepository = funcionarioRepository;
         }
 
-        public async Task Add(Funcionario funcionario)
+        public async Task CriarFuncionario(Funcionario funcionario)
         {
+            if (funcionario == null)
+            {
+                throw new ArgumentNullException("Funcionário não pode ser nulo.");
+            }
+
+            if (await _funcionarioRepository.GetById(funcionario.Id) != null)
+            {
+                throw new Exception("Funcionário já existe.");
+            }
+
+            funcionario.ValidarDadosCadastro();
             await _funcionarioRepository.Add(funcionario);
         }
 
-        public async Task Delete(Funcionario funcionario)
+        public async Task RemoverFuncionario(Funcionario funcionario)
         {
+            ProcurarFuncionario(funcionario);
             await _funcionarioRepository.Delete(funcionario);
         }
 
@@ -28,14 +40,32 @@ namespace Hotelaria.Application.Services
             return await _funcionarioRepository.GetAll();
         }
 
-        public async Task<Funcionario> GetById(int id)
+        public async Task<Funcionario> GetById(Guid id)
         {
-            return await _funcionarioRepository.GetById(id);
+            if (id == Guid.Empty)
+            {
+                throw new ArgumentNullException("Id não pode ser vazio.");
+            }
+            return await _funcionarioRepository.GetById(id) ?? throw new Exception("Funcionário não encontrado.");
         }
 
-        public async Task Update(Funcionario funcionario)
+        public async Task AtualizarFuncionario(Funcionario funcionario)
         {
+            ProcurarFuncionario(funcionario);
+            funcionario.ValidarDadosCadastro();
             await _funcionarioRepository.Update(funcionario);
+        }
+
+        private async void ProcurarFuncionario(Funcionario funcionario)
+        {
+            if (funcionario == null)
+            {
+                throw new ArgumentNullException("Funcionário não pode ser nulo.");
+            }
+            if (await _funcionarioRepository.GetById(funcionario.Id) == null)
+            {
+                throw new Exception("Funcionário não encontrado.");
+            }
         }
     }
 }

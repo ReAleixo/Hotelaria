@@ -1,62 +1,88 @@
-﻿namespace Hotelaria.Domain.Entities
+﻿using Hotelaria.Domain.ValueObject;
+
+namespace Hotelaria.Domain.Entities
 {
     public class Hotel
     {
+        public Guid Id { get; set; }
         public string Nome { get; set; }
         public List<Quarto> Quartos { get; set; }
         public List<Quarto> QuartosDisponiveis { get; set; }
         public int NumeroAndares { get; set; }
         public Endereco Endereco { get; set; }
 
-        public Hotel(string nome, Endereco endereco, int numeroAndares, List<Quarto> quartos)
+        public Hotel(
+            string nome,
+            Endereco endereco,
+            int numeroAndares,
+            List<Quarto> quartos)
         {
+            Id = Guid.NewGuid();
             Nome = nome;
             Endereco = endereco;
             NumeroAndares = numeroAndares;
             Quartos = quartos;
-            QuartosDisponiveis = AtualizaQuartosDisponiveis();
+            QuartosDisponiveis = GetQuartosDisponiveis();
+            ValidarDadosCadastro();
         }
 
-        public List<Quarto> AtualizaQuartosDisponiveis()
+        public void ValidarDadosCadastro()
+        {
+            if (string.IsNullOrEmpty(Nome))
+            {
+                throw new ArgumentException("Nome do hotel não pode ser vazio.");
+            }
+            if (Endereco == null)
+            {
+                throw new ArgumentException("Endereço do hotel não pode ser nulo.");
+            }
+            Endereco.ValidarDadosCadastro();
+            if (NumeroAndares <= 0)
+            {
+                throw new ArgumentException("Número de andares deve ser maior que zero.");
+            }
+            if (Quartos == null || Quartos.Count.Equals(default))
+            {
+                throw new ArgumentException("O hotel deve ter pelo menos um quarto.");
+            }
+        }
+
+        public List<Quarto> GetQuartosDisponiveis()
         {
              return Quartos.Where(x => x.EstaDisponivel).ToList();
         }
 
-        public string ConfereQuartosDisponiveis()
-        {
-            if (QuartosDisponiveis == null || QuartosDisponiveis.Count.Equals(default))
-            {
-                return "O hotel escolhido não possui quartos disponíveis no momento.";
-            }
-
-            if (QuartosDisponiveis.Count.Equals(1))
-            {
-                return $"O hotel {Nome} possui disponível apenas o quarto {QuartosDisponiveis}.";
-            }
-
-            return $"O hotel {Nome} possui os seguintes quartos dísponíveis: {QuartosDisponiveis}";
-        }
-
         public void SetQuartoOcupado(Quarto quarto)
         {
-            if (Quartos.Contains(quarto))
+            if (!Quartos.Contains(quarto))
             {
-                quarto.EstaDisponivel = false;
-                AtualizaQuartosDisponiveis();
-                return;
+                throw new Exception("Quarto não encontrado no hotel.");
             }
-            throw new Exception("Quarto não encontrado no hotel.");
+
+            if (!quarto.EstaDisponivel)
+            {
+                throw new Exception("Quarto não está disponível.");
+            }
+
+            if (!quarto.EstaLimpo)
+            {
+                throw new Exception("Quarto não está limpo.");
+            }
+
+            quarto.EstaDisponivel = false;
+            GetQuartosDisponiveis();
         }
 
         public void SetQuartoDisponivel(Quarto quarto)
         {
-            if (Quartos.Contains(quarto))
+            if (!Quartos.Contains(quarto))
             {
-                quarto.EstaDisponivel = true;
-                AtualizaQuartosDisponiveis();
-                return;
+                throw new Exception("Quarto não encontrado no hotel.");
             }
-            throw new Exception("Quarto não encontrado no hotel.");
+
+            quarto.EstaDisponivel = true;
+            quarto.EstaLimpo = false;
+            GetQuartosDisponiveis();
         }
     }
 }

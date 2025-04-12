@@ -6,14 +6,44 @@
         public string Cargo { get; set; }
         public decimal Salario { get; set; }
 
-        public Funcionario()
+        public Funcionario(
+            string nome,
+            string documento,
+            DateTime dataNascimento,
+            string cargo,
+            decimal salario)
         {
-
+            Id = Guid.NewGuid();
+            Nome = nome;
+            Documento = documento;
+            DataNascimento = dataNascimento;
+            Cargo = cargo;
+            Salario = salario;
+            ValidarDadosCadastro();
         }
 
-        public void LimparQuarto(Quarto quarto)
+        public void ValidarDadosCadastro()
         {
-            quarto.EstaLimpo = true;
+            if (string.IsNullOrEmpty(Nome))
+            {
+                throw new ArgumentException("Nome do funcionário não pode ser vazio.");
+            }
+            if (string.IsNullOrEmpty(Documento))
+            {
+                throw new ArgumentException("Documento do funcionário não pode ser vazio.");
+            }
+            if (DataNascimento == default)
+            {
+                throw new ArgumentException("Data de nascimento do funcionário não pode ser vazia.");
+            }
+            if (string.IsNullOrEmpty(Cargo))
+            {
+                throw new ArgumentException("Cargo do funcionário não pode ser vazio.");
+            }
+            if (Salario <= 0)
+            {
+                throw new ArgumentException("Salário do funcionário deve ser maior que zero.");
+            }
         }
     }
 }

@@ -22,11 +22,11 @@ namespace Hotelaria.Infrastructure.Repository
             await _dbConnection.ExecuteAsync(sql, new { Id = quarto.Id });
         }
 
-        public async Task<Quarto> GetById(int id)
+        public async Task<Quarto> GetById(Guid id)
         {
             string sql = "SELECT * FROM Quarto WHERE Id = @Id";
             Quarto quarto = await _dbConnection.QueryFirstOrDefaultAsync<Quarto>(sql, new { Id = id });
-            return quarto;
+            return quarto ?? throw new Exception("Quarto não encontrado.");
         }
 
         public async Task<IEnumerable<Quarto>> GetAll()

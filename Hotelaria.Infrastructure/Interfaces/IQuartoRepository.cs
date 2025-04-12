@@ -7,7 +7,7 @@ namespace Hotelaria.Infrastructure.Interfaces
         Task Add(Quarto quarto);
         Task Update(Quarto quarto);
         Task Delete(Quarto quarto);
-        Task<Quarto> GetById(int id);
+        Task<Quarto> GetById(Guid id);
         Task<IEnumerable<Quarto>> GetAll();
     }
 }

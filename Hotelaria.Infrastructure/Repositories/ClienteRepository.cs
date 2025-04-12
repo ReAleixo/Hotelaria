@@ -21,11 +21,11 @@ namespace Hotelaria.Infrastructure.Repository
             await _dbConnection.ExecuteAsync(sql, new { cliente.Id });
         }
 
-        public async Task<Cliente> GetById(int id)
+        public async Task<Cliente> GetById(Guid id)
         {
             string sql = "SELECT * FROM Cliente WHERE Id = @Id";
             Cliente cliente = await _dbConnection.QueryFirstOrDefaultAsync<Cliente>(sql, new { Id = id });
-            return cliente;
+            return cliente ?? throw new Exception("Cliente não encontrado.");
         }
 
         public async Task<IEnumerable<Cliente>> GetAll()

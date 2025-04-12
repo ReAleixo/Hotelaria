@@ -7,7 +7,7 @@ namespace Hotelaria.Infrastructure.Interfaces
         Task Add(Cliente cliente);
         Task Update(Cliente cliente);
         Task Delete(Cliente cliente);
-        Task<Cliente> GetById(int id);
+        Task<Cliente> GetById(Guid id);
         Task<IEnumerable<Cliente>> GetAll();
     }
 }
