@@ -2,7 +2,7 @@
 {
     public class Funcionario : Pessoa
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
         public string Cargo { get; set; }
         public decimal Salario { get; set; }
 

@@ -2,7 +2,7 @@
 {
     public class Quarto
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
         public int Numero { get; set; }
         public int MetrosQuadrados { get; set; }
         public int NumeroComodos { get; set; }

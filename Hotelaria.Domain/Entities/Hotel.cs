@@ -4,12 +4,15 @@ namespace Hotelaria.Domain.Entities
 {
     public class Hotel
     {
-        public Guid Id { get; set; }
-        public string Nome { get; set; }
-        public List<Quarto> Quartos { get; set; }
-        public List<Quarto> QuartosDisponiveis { get; set; }
-        public int NumeroAndares { get; set; }
-        public Endereco Endereco { get; set; }
+        public Guid Id { get; }
+        public string Nome { get; }
+        public List<Quarto> Quartos { get; }
+        public List<Quarto> QuartosDisponiveis { get; private set; }
+        public int NumeroAndares { get; }
+        public Endereco Endereco { get; }
+        public List<Funcionario> Funcionarios { get; private set; }
+        public List<Cliente> Clientes { get; private set; }
+        public List<Reserva> Reservas { get; private set; }
 
         public Hotel(
             string nome,
@@ -22,7 +25,7 @@ namespace Hotelaria.Domain.Entities
             Endereco = endereco;
             NumeroAndares = numeroAndares;
             Quartos = quartos;
-            QuartosDisponiveis = GetQuartosDisponiveis();
+            AtualizaQuartosDisponiveis();
             ValidarDadosCadastro();
         }
 
@@ -47,9 +50,9 @@ namespace Hotelaria.Domain.Entities
             }
         }
 
-        public List<Quarto> GetQuartosDisponiveis()
+        public void AtualizaQuartosDisponiveis()
         {
-             return Quartos.Where(x => x.EstaDisponivel).ToList();
+            QuartosDisponiveis = Quartos.Where(x => x.EstaDisponivel).ToList();
         }
 
         public void SetQuartoOcupado(Quarto quarto)
@@ -61,7 +64,7 @@ namespace Hotelaria.Domain.Entities
 
             if (!quarto.EstaDisponivel)
             {
-                throw new Exception("Quarto não está disponível.");
+                throw new Exception("Quarto já está ocupado.");
             }
 
             if (!quarto.EstaLimpo)
@@ -70,7 +73,7 @@ namespace Hotelaria.Domain.Entities
             }
 
             quarto.EstaDisponivel = false;
-            GetQuartosDisponiveis();
+            AtualizaQuartosDisponiveis();
         }
 
         public void SetQuartoDisponivel(Quarto quarto)
@@ -82,7 +85,92 @@ namespace Hotelaria.Domain.Entities
 
             quarto.EstaDisponivel = true;
             quarto.EstaLimpo = false;
-            GetQuartosDisponiveis();
+            AtualizaQuartosDisponiveis();
+        }
+
+        public void SetQuartoLimpo(Quarto quarto)
+        {
+            if (!Quartos.Contains(quarto))
+            {
+                throw new Exception("Quarto não encontrado no hotel.");
+            }
+            if (quarto.EstaLimpo)
+            {
+                throw new Exception("Quarto já está limpo.");
+            }
+
+            quarto.EstaLimpo = true;
+        }
+
+        public void AdicionarFuncionario(Funcionario funcionario)
+        {
+            if (Funcionarios == null)
+            {
+                Funcionarios = new List<Funcionario>();
+            }
+            if (funcionario == null)
+            {
+                throw new ArgumentNullException("Funcionário não pode ser nulo.");
+            }
+            funcionario.ValidarDadosCadastro();
+            if (Funcionarios.Contains(funcionario))
+            {
+                throw new Exception("Funcionário já cadastrado.");
+            }
+
+            Funcionarios.Add(funcionario);
+        }
+
+        public void RemoverFuncionario(Funcionario funcionario)
+        {
+            if (Funcionarios == null || Funcionarios.Count.Equals(default))
+            {
+                throw new Exception("Não há funcionários cadastrados.");
+            }
+            if (funcionario == null)
+            {
+                throw new ArgumentNullException("Funcionário não pode ser nulo.");
+            }
+            if (!Funcionarios.Contains(funcionario))
+            {
+                throw new Exception("Funcionário não encontrado.");
+            }
+            Funcionarios.Remove(funcionario);
+        }
+
+        public void AdicionarCliente(Cliente cliente)
+        {
+            if (Clientes == null)
+            {
+                Clientes = new List<Cliente>();
+            }
+            if (cliente == null)
+            {
+                throw new ArgumentNullException("Cliente não pode ser nulo.");
+            }
+            cliente.ValidarDadosCadastro();
+            if (Clientes.Contains(cliente))
+            {
+                throw new Exception("Cliente já cadastrado.");
+            }
+            Clientes.Add(cliente);
+        }
+
+        public void RemoverCliente(Cliente cliente)
+        {
+            if (Clientes == null || Clientes.Count.Equals(default))
+            {
+                throw new Exception("Não há clientes cadastrados.");
+            }
+            if (cliente == null)
+            {
+                throw new ArgumentNullException("Cliente não pode ser nulo.");
+            }
+            if (!Clientes.Contains(cliente))
+            {
+                throw new Exception("Cliente não encontrado.");
+            }
+            Clientes.Remove(cliente);
         }
     }
 }
