@@ -3,31 +3,27 @@
     public class Reserva
     {
         public Guid Id { get; private set; }
-        public Hotel Hotel { get; set; }
+        public Cliente Cliente { get; set; }
         public Quarto Quarto { get; set; }
         public DateTime DataEntrada { get; set; }
         public DateTime DataSaida { get; set; }
 
         public Reserva(
-            Hotel hotel,
+            Cliente cliente,
             Quarto quarto,
             DateTime dataEntrada,
-            DateTime dataSaida,
-            int quantidadePessoas)
+            DateTime dataSaida)
         {
             try
             {
                 Id = Guid.NewGuid();
-                Hotel = hotel;
-                Hotel.ValidarDadosCadastro();
+                Cliente = cliente;
+                Cliente.ValidarDadosCadastro();
                 Quarto = quarto;
                 Quarto.ValidarDadosCadastro();
                 DataEntrada = dataEntrada;
                 DataSaida = dataSaida;
                 ValidarDadosCadastro();
-                ValidarReserva();
-                Hotel.SetQuartoOcupado(Quarto);
-                Hotel.AtualizaQuartosDisponiveis();
             }
             catch (Exception ex)
             {
@@ -37,9 +33,9 @@
 
         public void ValidarDadosCadastro()
         {
-            if (Hotel == null)
+            if (Cliente == null)
             {
-                throw new ArgumentException("Hotel não pode ser nulo.");
+                throw new ArgumentException("Cliente não pode ser nulo.");
             }
             if (Quarto == null)
             {
@@ -57,33 +53,6 @@
             {
                 throw new ArgumentException("Data de entrada não pode ser maior que a data de saída.");
             }
-        }
-
-        public void ValidarReserva()
-        {
-            if (Hotel.QuartosDisponiveis == null || Hotel.QuartosDisponiveis.Count.Equals(default))
-            {
-                throw new Exception("O hotel escolhido não possui quartos disponíveis no momento.");
-            }
-            if (!Hotel.Quartos.Contains(Quarto))
-            {
-                throw new Exception($"O hotel {Hotel.Nome} não tem o quarto selecionado.");
-            }
-            if (!Hotel.QuartosDisponiveis.Contains(Quarto)
-                || !Quarto.EstaDisponivel)
-            {
-                throw new Exception($"O quarto {Quarto.Numero} não está disponível no momento.");
-            }
-            if (!Quarto.EstaLimpo)
-            {
-                throw new Exception($"O quarto {Quarto.Numero} não está limpo.");
-            }
-        }
-
-        public void CancelarReserva()
-        {
-            Hotel.SetQuartoDisponivel(Quarto);
-            Hotel.AtualizaQuartosDisponiveis();
         }
     }
 }

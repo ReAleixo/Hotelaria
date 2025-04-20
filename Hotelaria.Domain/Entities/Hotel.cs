@@ -172,5 +172,32 @@ namespace Hotelaria.Domain.Entities
             }
             Clientes.Remove(cliente);
         }
+
+        public void CriarReserva(Quarto quarto, Cliente cliente)
+        {
+            if (QuartosDisponiveis == null || QuartosDisponiveis.Count.Equals(default))
+            {
+                throw new Exception("O hotel escolhido não possui quartos disponíveis no momento.");
+            }
+            if (!Quartos.Contains(quarto))
+            {
+                throw new Exception($"O hotel {Nome} não tem o quarto selecionado.");
+            }
+            if (!QuartosDisponiveis.Contains(quarto)
+                || !quarto.EstaDisponivel)
+            {
+                throw new Exception($"O quarto {quarto.Numero} não está disponível no momento.");
+            }
+            if (!quarto.EstaLimpo)
+            {
+                throw new Exception($"O quarto {quarto.Numero} não está limpo.");
+            }
+
+            Reserva reserva = new Reserva(
+                cliente,
+                quarto,
+                DateTime.Now,
+                DateTime.Now.AddDays(3));
+        }
     }
 }

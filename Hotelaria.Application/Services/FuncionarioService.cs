@@ -62,6 +62,10 @@ namespace Hotelaria.Application.Services
             {
                 throw new ArgumentNullException("Funcionário não pode ser nulo.");
             }
+            if (funcionario.Id == Guid.Empty)
+            {
+                throw new ArgumentNullException("Id não pode ser vazio.");
+            }
             if (await _funcionarioRepository.GetById(funcionario.Id) == null)
             {
                 throw new Exception("Funcionário não encontrado.");

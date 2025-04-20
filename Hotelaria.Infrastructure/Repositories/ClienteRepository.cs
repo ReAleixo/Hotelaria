@@ -10,9 +10,9 @@ namespace Hotelaria.Infrastructure.Repository
         private readonly IDbConnection _dbConnection;
         public async Task Add(Cliente cliente)
         {
-            string sql = @"INSERT INTO Cliente (Nome, Documento, DataNascimento, ReservaId) 
-                                        VALUES (@Nome, @Documento, @DataNascimento, @ReservaId)";
-            await _dbConnection.ExecuteAsync(sql, new { cliente.Nome, cliente.Documento, cliente.DataNascimento, ReservaId = cliente.Reserva.Id });
+            string sql = @"INSERT INTO Cliente (Nome, Documento, DataNascimento) 
+                                        VALUES (@Nome, @Documento, @DataNascimento)";
+            await _dbConnection.ExecuteAsync(sql, new { cliente.Nome, cliente.Documento, cliente.DataNascimento });
         }
 
         public async Task Delete(Cliente cliente)
@@ -40,10 +40,9 @@ namespace Hotelaria.Infrastructure.Repository
             string sql = @"UPDATE Cliente 
                               SET Nome = @Nome,
                                   Documento = @Documento,
-                                  DataNascimento = @DataNascimento,
-                                  ReservaId = @ReservaId
+                                  DataNascimento = @DataNascimento
                             WHERE Id = @Id";
-            await _dbConnection.ExecuteAsync(sql, new { cliente.Nome, cliente.Documento, cliente.DataNascimento, ReservaId = cliente.Reserva.Id, cliente.Id });
+            await _dbConnection.ExecuteAsync(sql, new { cliente.Nome, cliente.Documento, cliente.DataNascimento, cliente.Id });
         }
     }
 }

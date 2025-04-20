@@ -62,7 +62,10 @@ namespace Hotelaria.Application.Services
             {
                 throw new ArgumentNullException("O cliente não pode ser nulo");
             }
-
+            if (cliente.Id == Guid.Empty)
+            {
+                throw new ArgumentNullException("Id não pode ser vazio.");
+            }
             if (await _clienteRepository.GetById(cliente.Id) == null)
             {
                 throw new Exception("Cliente não encontrado");

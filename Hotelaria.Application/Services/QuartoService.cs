@@ -62,7 +62,10 @@ namespace Hotelaria.Application.Services
             {
                 throw new ArgumentNullException("Quarto não pode ser nulo.");
             }
-
+            if (quarto.Id == Guid.Empty)
+            {
+                throw new ArgumentNullException("Id não pode ser vazio.");
+            }
             if (await _quartoRepository.GetById(quarto.Id) == null)
             {
                 throw new Exception("Quarto não encontrado.");

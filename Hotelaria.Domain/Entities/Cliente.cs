@@ -3,7 +3,6 @@
     public class Cliente : Pessoa
     {
         public Guid Id { get; private set; }
-        public Reserva Reserva { get; set; }
 
         public Cliente(
             string nome,
