@@ -25,15 +25,15 @@ namespace Hotelaria.Domain.Entities
             Endereco = endereco;
             NumeroAndares = numeroAndares;
             Quartos = quartos;
-            AtualizaQuartosDisponiveis();
             ValidarDadosCadastro();
+            QuartosDisponiveis = AtualizaQuartosDisponiveis();
         }
 
         public void ValidarDadosCadastro()
         {
             if (string.IsNullOrEmpty(Nome))
             {
-                throw new ArgumentException("Nome do hotel não pode ser vazio.");
+                throw new ArgumentNullException("Nome do hotel não pode ser vazio.");
             }
             if (Endereco == null)
             {
@@ -50,9 +50,9 @@ namespace Hotelaria.Domain.Entities
             }
         }
 
-        public void AtualizaQuartosDisponiveis()
+        public List<Quarto> AtualizaQuartosDisponiveis()
         {
-            QuartosDisponiveis = Quartos.Where(x => x.EstaDisponivel).ToList();
+            return Quartos.Where(x => x.EstaDisponivel).ToList();
         }
 
         public void SetQuartoOcupado(Quarto quarto)
@@ -73,7 +73,7 @@ namespace Hotelaria.Domain.Entities
             }
 
             quarto.EstaDisponivel = false;
-            AtualizaQuartosDisponiveis();
+            QuartosDisponiveis = AtualizaQuartosDisponiveis();
         }
 
         public void SetQuartoDisponivel(Quarto quarto)
@@ -85,7 +85,7 @@ namespace Hotelaria.Domain.Entities
 
             quarto.EstaDisponivel = true;
             quarto.EstaLimpo = false;
-            AtualizaQuartosDisponiveis();
+            QuartosDisponiveis = AtualizaQuartosDisponiveis();
         }
 
         public void SetQuartoLimpo(Quarto quarto)
@@ -173,7 +173,7 @@ namespace Hotelaria.Domain.Entities
             Clientes.Remove(cliente);
         }
 
-        public void CriarReserva(Quarto quarto, Cliente cliente)
+        public Reserva CriarReserva(Quarto quarto, Cliente cliente)
         {
             if (QuartosDisponiveis == null || QuartosDisponiveis.Count.Equals(default))
             {
@@ -193,7 +193,7 @@ namespace Hotelaria.Domain.Entities
                 throw new Exception($"O quarto {quarto.Numero} não está limpo.");
             }
 
-            Reserva reserva = new Reserva(
+            return new Reserva(
                 cliente,
                 quarto,
                 DateTime.Now,

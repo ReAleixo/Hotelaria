@@ -13,19 +13,19 @@
         public Endereco(
             string logradouro,
             int numero,
-            string complemento,
             string bairro,
             string cidade,
             string estado,
-            string cep)
+            string cep,
+            string complemento = null)
         {
             Logradouro = logradouro;
             Numero = numero;
-            Complemento = complemento;
             Bairro = bairro;
             Cidade = cidade;
             Estado = estado;
             CEP = cep;
+            Complemento = complemento;
             ValidarDadosCadastro();
         }
 
@@ -33,7 +33,7 @@
         {
             if (string.IsNullOrEmpty(Logradouro))
             {
-                throw new ArgumentException("Logradouro não pode ser vazio.");
+                throw new ArgumentNullException("Logradouro não pode ser vazio.");
             }
             if (Numero <= 0)
             {
@@ -41,20 +41,25 @@
             }
             if (string.IsNullOrEmpty(Bairro))
             {
-                throw new ArgumentException("Bairro não pode ser vazio.");
+                throw new ArgumentNullException("Bairro não pode ser vazio.");
             }
             if (string.IsNullOrEmpty(Cidade))
             {
-                throw new ArgumentException("Cidade não pode ser vazia.");
+                throw new ArgumentNullException("Cidade não pode ser vazia.");
             }
             if (string.IsNullOrEmpty(Estado))
             {
-                throw new ArgumentException("Estado não pode ser vazio.");
+                throw new ArgumentNullException("Estado não pode ser vazio.");
             }
             if (string.IsNullOrEmpty(CEP))
             {
-                throw new ArgumentException("CEP não pode ser vazio.");
+                throw new ArgumentNullException("CEP não pode ser vazio.");
             }
+        }
+
+        public override string ToString()
+        {
+            return $"{Logradouro}, {Numero}, {Bairro}, {Cidade} - {Estado}, {CEP}";
         }
     }
 }

@@ -7,7 +7,13 @@ namespace Hotelaria.Tests.Domain
         [Fact]
         public void InstanceCreatesSuccessfully()
         {
-            Quarto quarto = new Quarto(1, 20, 2, 2, 100);
+            int numero = 1;
+            int metrosQuadrados = 20;
+            int numeroComodos = 2;
+            int numeroCamas = 2;
+            decimal preco = 100;
+            Quarto quarto = new Quarto(numero, metrosQuadrados, numeroComodos, numeroCamas, preco);
+            Assert.NotNull(quarto);
         }
 
         [Theory]

@@ -1,4 +1,6 @@
-﻿namespace Hotelaria.Domain.Entities
+﻿using System.Runtime.CompilerServices;
+
+namespace Hotelaria.Domain.Entities
 {
     public class Funcionario : Pessoa
     {
@@ -26,21 +28,33 @@
         {
             if (string.IsNullOrEmpty(Nome))
             {
-                throw new ArgumentException("Nome do funcionário não pode ser vazio.");
+                throw new ArgumentNullException("Nome do funcionário não pode ser vazio.");
+            }
+            if (Nome.Split().Count() < 2)
+            {
+                throw new ArgumentException("O nome do funcionário deve conter pelo menos um sobrenome");
             }
             if (string.IsNullOrEmpty(Documento))
             {
-                throw new ArgumentException("Documento do funcionário não pode ser vazio.");
+                throw new ArgumentNullException("Documento do funcionário não pode ser vazio.");
+            }
+            if (Documento.Length < 11)
+            {
+                throw new ArgumentException("O documento do funcionário deve ter pelo menos 11 caracteres");
             }
             if (DataNascimento == default)
             {
-                throw new ArgumentException("Data de nascimento do funcionário não pode ser vazia.");
+                throw new ArgumentException("Data de nascimento do funcionário é inválida.");
+            }
+            if (DataNascimento > DateTime.Now)
+            {
+                throw new ArgumentException("A data de nascimento do funcionário não pode ser maior que a data atual");
             }
             if (string.IsNullOrEmpty(Cargo))
             {
-                throw new ArgumentException("Cargo do funcionário não pode ser vazio.");
+                throw new ArgumentNullException("Cargo do funcionário não pode ser vazio.");
             }
-            if (Salario <= 0)
+            if (Salario <= decimal.Zero)
             {
                 throw new ArgumentException("Salário do funcionário deve ser maior que zero.");
             }

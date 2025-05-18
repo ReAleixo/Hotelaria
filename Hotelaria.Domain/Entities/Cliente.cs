@@ -32,7 +32,7 @@
             }
             if (Documento.Length < 11)
             {
-                throw new ArgumentNullException("O documento do cliente deve ter pelo menos 11 caracteres");
+                throw new ArgumentException("O documento do cliente deve ter pelo menos 11 caracteres");
             }
             if (DataNascimento > DateTime.Now)
             {
